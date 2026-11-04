@@ -1,0 +1,105 @@
+name: CI — Build, Test & Database Validation
+
+on:
+  push:
+    branches: [ "main", "develop", "feat/**" ]
+  pull_request:
+    branches: [ "main", "develop" ]
+
+jobs:
+  backend-java21:
+    name: Backend (Java 21 Build & QA Suite)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 21 (Temurin)
+        uses: actions/setup-java@v4
+        with:
+          java-version: "21"
+          distribution: "temurin"
+          cache: "maven"
+
+      - name: Compile Java 21 Sources & Run QA Test Suite
+        run: |
+          mkdir -p backend/target/classes
+          javac -d backend/target/classes $(find backend/src -name "*.java")
+          java -cp backend/target/classes com.pulsevenue.PulseVenueTest
+
+      - name: Package Executable Backend JAR
+        run: |
+          jar --create --file backend/target/pulsevenue-backend.jar \
+            --main-class com.pulsevenue.PulseVenueApplication \
+            -C backend/target/classes .
+
+      - name: Upload Backend JAR Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: pulsevenue-backend-jar
+          path: backend/target/pulsevenue-backend.jar
+
+  frontend-react:
+    name: Frontend (React 18 + Vite Build)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Install Dependencies & Build Production Bundle
+        run: |
+          npm install
+          npm run build
+
+      - name: Upload Frontend Build Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: pulsevenue-frontend-dist
+          path: frontend/dist
+
+  database-postgres:
+    name: Database (PostgreSQL 16 Live Schema & Seed Test)
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_DB: pulsevenue
+          POSTGRES_USER: pulsevenue
+          POSTGRES_PASSWORD: pulsevenue_ci_pass
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Apply schema.sql & seed.sql to Live PostgreSQL 16
+        env:
+          PGPASSWORD: pulsevenue_ci_pass
+        run: |
+          psql -h localhost -U pulsevenue -d pulsevenue -v ON_ERROR_STOP=1 -f database/schema.sql
+          psql -h localhost -U pulsevenue -d pulsevenue -v ON_ERROR_STOP=1 -f database/seed.sql
+          psql -h localhost -U pulsevenue -d pulsevenue -c "SELECT wallet_id, balance, currency FROM wallets;"
+
+  docs-and-governance:
+    name: Architecture & Role Docs Integrity Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Run Full Skeleton Verification Script
+        run: bash scripts/verify_skeleton.sh

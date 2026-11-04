@@ -1,0 +1,65 @@
+/*
+ * PulseVenue Base Stylesheet Skeleton
+ * Initialized by: Software Architect / DevOps
+ *
+ * UI Designer Pull Request Tasks:
+ * - TODO (ISS-07): Implement full Festival Dark Mode design tokens & responsive layout
+ * - TODO (ISS-16): Style H3 Zone Heatmap cards (NORMAL/ELEVATED/BOTTLENECK), Offline POS banner, and Flash Discount alert
+ */
+
+:root {
+  --bg-primary: #0b0f19;
+  --bg-card: #151c2c;
+  --text-primary: #f8fafc;
+  --accent: #6366f1;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, sans-serif;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+.app-shell {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 1.5rem;
+}
+
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  border-bottom: 1px solid #2d3748;
+  padding-bottom: 1rem;
+}
+
+.tab-nav {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.tab-nav button {
+  background: var(--bg-card);
+  color: var(--text-primary);
+  border: 1px solid #334155;
+  padding: 0.6rem 1rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+
+.tab-nav button.active {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.card {
+  margin-top: 1.5rem;
+  padding: 1.5rem;
+  background: var(--bg-card);
+  border-radius: 0.75rem;
+  border: 1px solid #2d3748;
+}

@@ -1,0 +1,27 @@
+# Java / Maven / Gradle
+target/
+build/
+out/
+*.class
+*.jar
+*.war
+.mvn/wrapper/maven-wrapper.jar
+
+# Node / React / Vite
+node_modules/
+frontend/dist/
+frontend/.vite/
+npm-debug.log*
+
+# IDEs & OS
+.idea/
+*.iml
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Local DB & Env
+*.db
+*.sqlite3
+.env
+.env.local
