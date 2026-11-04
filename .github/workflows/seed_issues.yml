@@ -1,0 +1,26 @@
+name: PM — Seed Team Role Issues on GitHub
+
+on:
+  push:
+    branches: [ "main" ]
+    paths:
+      - "scripts/create_github_issues.sh"
+      - ".github/workflows/seed_issues.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  seed-role-issues:
+    name: Create Role Backlog Issues (ISS-02..ISS-25)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Create Missing Team Role Issues via GitHub CLI
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: bash scripts/create_github_issues.sh
