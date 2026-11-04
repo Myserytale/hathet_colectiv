@@ -1,5 +1,5 @@
 # Multi-stage Dockerfile for PulseVenue React (Vite) Frontend (Owner: DevOps - ISS-01)
-FROM node:22-alpine AS builder
+FROM node:26-alpine AS builder
 WORKDIR /app/frontend
 
 COPY package.json ./
