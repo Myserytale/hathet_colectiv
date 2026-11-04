@@ -1,0 +1,34 @@
+name: PM — Clean Dependabot PRs & Seed Team Role Issues
+
+on:
+  push:
+    branches: [ "main", "chore/pm-seed-issues" ]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  issues: write
+  pull-requests: write
+
+jobs:
+  cleanup-and-seed:
+    name: Close Dependabot PRs & Create Role Issues (ISS-02..ISS-25)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Auto-Close All Open Dependabot Pull Requests & Delete Bot Branches
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          prs=$(gh pr list --author "app/dependabot" --state open --json number --jq '.[].number' || true)
+          for pr in $prs; do
+            echo "Closing Dependabot PR #$pr..."
+            gh pr close "$pr" --delete-branch || true
+          done
+
+      - name: Create Missing Team Role Issues in Issues Tab (ISS-02..ISS-25)
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: bash scripts/create_github_issues.sh
