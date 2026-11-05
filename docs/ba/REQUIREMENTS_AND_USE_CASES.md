@@ -53,39 +53,143 @@ The following non-functional requirements define the initial quality expectation
 The following diagram provides an overview of the main system actors and their interactions with PulseVenue. It is a Mermaid flowchart representation of the proposed use cases.
 
 ```mermaid
-flowchart LR
-    A["Attendee"]
-    B["Bartender / POS Operator"]
-    C["Event Organizer"]
-    D["Crowd Simulator"]
 
-    subgraph SYSTEM["PulseVenue System"]
-        direction TB
-        UC01(["UC-01: View Wallet and QR Token"])
-        UC02(["UC-02: Process Offline Payment"])
-        UC03(["UC-03: Sync Pending Transactions"])
-        UC04(["UC-04: Monitor Crowd Congestion"])
-        UC05(["UC-05: View Flash Discounts"])
-        UC06(["UC-06: Run Crowd Simulation"])
-        UC07(["UC-07: Review Pending Transactions"])
-    end
+usecase-beta
+direction LR
 
-    A --- UC01
-    A --- UC05
-    B --- UC02
-    B --- UC03
-    B --- UC07
-    C --- UC04
-    D --- UC06
+actor Attendee("Attendee")
+actor Bartender("Bartender / POS Operator")
+actor Organizer("Event Organizer")
+actor Simulator("Crowd Simulator")
+
+systemBoundary PulseVenue["PulseVenue System"]
+    UC01("UC-01: View Wallet and QR Token")
+    UC02("UC-02: Process Offline Payment")
+    UC03("UC-03: Sync Pending Transactions")
+    UC04("UC-04: Monitor Crowd Congestion")
+    UC05("UC-05: View Flash Discounts")
+    UC06("UC-06: Run Crowd Simulation")
+    UC07("UC-07: Review Pending Transactions")
+end
+
+Attendee -- UC01
+Attendee -- UC05
+
+Bartender -- UC02
+Bartender -- UC03
+Bartender -- UC07
+
+Organizer -- UC04
+
+Simulator -- UC06
 ```
 
 
 ---
 
-## 4. UML Activity Diagrams (`TODO: ISS-15`)
-> **Task for BA (`ISS-15` Pull Request):** Create two swimlane Activity Diagrams:
-> 1. **Flow A:** Offline QR Scan -> Local HMAC Verification -> `localStorage` Queue -> Batch Sync to Double-Entry Ledger.
-> 2. **Flow B:** GPS Telemetry -> Uber H3 Zone Aggregation -> Bottleneck Detection -> Geofenced Flash Discount Broadcast.
+## 4. UML Activity Diagrams 
+
+### 4.1. Offline QR Payment and Batch Synchronization
+```mermaid
+swimlane-beta LR
+
+subgraph bartender [Bartender / POS Operator]
+    start([Start])
+    enter[Enter purchase amount]
+    scan[Scan or paste QR token]
+    result[View payment status]
+end
+
+subgraph pos [POS Application]
+    verify[Verify token and offline rules]
+    valid{Payment acceptable?}
+    reject[Reject payment]
+    save[Save transaction in local queue]
+    online{Internet available?}
+    pending[Keep transaction pending]
+    send[Send transaction batch]
+    update[Update local transaction status]
+    finish([End])
+end
+
+subgraph backend [Backend and Ledger]
+    check[Validate transaction and idempotency key]
+    duplicate{Already processed?}
+    previous[Return previous result]
+    settle{Settlement valid?}
+    ledger[Record debit and credit entries]
+    failed[Return rejection status]
+end
+
+start --> enter --> scan --> verify
+verify --> valid
+
+valid -->|No| reject --> result
+valid -->|Yes| save --> online
+
+online -->|No| pending --> online
+online -->|Yes| send --> check
+
+check --> duplicate
+duplicate -->|Yes| previous --> update
+duplicate -->|No| settle
+settle -->|Yes| ledger --> update
+settle -->|No| failed --> update
+
+update --> result
+result --> finish
+```
+
+
+### 4.2. Crowd Congestion Detection and Flash Discounts
+```mermaid
+swimlane-beta LR
+subgraph telemetry [GPS Telemetry / Simulator]
+    start([Start])
+    generate[Generate attendee location data]
+    send[Send location updates]
+end
+
+subgraph backend [Crowd Management Service]
+    aggregate[Aggregate attendees into H3 zones]
+    occupancy[Calculate zone occupancy]
+    congested{Occupancy above threshold?}
+    find[Find less crowded bar]
+    eligible{Eligible bar available?}
+end
+
+subgraph organizer [Event Organizer Dashboard]
+    normal[Display normal occupancy]
+    alert[Display congestion alert]
+end
+
+subgraph discounts [Discount Engine]
+    active{Promotion already active?}
+    keep[Keep existing promotion]
+    create[Generate flash discount]
+    store[Store discount and geofence]
+    none[No new promotion]
+end
+
+subgraph attendee [Attendee Application]
+    display[Display eligible flash discount]
+    finish([End])
+end
+
+start --> generate --> send --> aggregate
+aggregate --> occupancy --> congested
+
+congested -->|No| normal --> finish
+congested -->|Yes| alert --> find
+
+find --> eligible
+eligible -->|No| none --> finish
+eligible -->|Yes| active
+
+active -->|Yes| keep --> finish
+active -->|No| create --> store --> display
+display --> finish
+```
 
 ---
 
