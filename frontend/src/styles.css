@@ -7,24 +7,283 @@
  * - TODO (ISS-16): Style H3 Zone Heatmap cards (NORMAL/ELEVATED/BOTTLENECK), Offline POS banner, and Flash Discount alert
  */
 
+/*
+ * PulseVenue — ISS-07
+ * Festival Dark Theme Design System
+ * Color Palette, Typography & Accessibility
+ */
+
 :root {
-  --bg-primary: #0b0f19;
-  --bg-card: #151c2c;
-  --text-primary: #f8fafc;
-  --accent: #6366f1;
+  color-scheme: dark;
+
+  /*  COLOR PALETTE */
+
+  /* Backgrounds */
+  --color-background-base: #06171B;
+  --color-surface-panel: #0D2224;
+  --color-surface-elevated: #142D31;
+
+  /* Text */
+  --color-text-primary: #F3F7FA;
+  --color-text-secondary: #C6D8DB;
+  --color-text-on-accent: #101820;
+
+  /* Accent */
+  --color-accent-primary: #FB9031;
+
+  /* Borders & Focus */
+  --color-border-interactive: #93ADB7;
+  --color-focus-ring: #FFE08B;
+  --color-border-subtle: #315158;
+
+  /* Semantic Status Colors */
+  --color-status-normal: #22C55E;
+  --color-status-elevated: #FACC15;
+  --color-status-bottleneck: #EF4444;
+  --color-status-offline: #3B82F6;
+
+  /*
+     TYPOGRAPHY
+   */
+
+  --font-family-primary: "Inter", system-ui, -apple-system,
+    BlinkMacSystemFont, "Segoe UI", sans-serif;
+
+  /* Font Weights */
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  /* Display */
+  --font-size-display: 2.5rem;
+  --line-height-display: 3rem;
+  --letter-spacing-display: -0.01em;
+
+  /* Headings */
+  --font-size-h1: 2rem;
+  --line-height-h1: 2.5rem;
+
+  --font-size-h2: 1.5rem;
+  --line-height-h2: 2rem;
+
+  --font-size-h3: 1.25rem;
+  --line-height-h3: 1.75rem;
+
+  /* Body */
+  --font-size-body-large: 1.125rem;
+  --line-height-body-large: 1.75rem;
+
+  --font-size-body: 1rem;
+  --line-height-body: 1.5rem;
+
+  --font-size-body-small: 0.875rem;
+  --line-height-body-small: 1.25rem;
+
+  /* Labels & Buttons */
+  --font-size-label: 0.875rem;
+  --line-height-label: 1.25rem;
+
+  --font-size-button: 1rem;
+  --line-height-button: 1.5rem;
+
+  --font-size-caption: 0.875rem;
+  --line-height-caption: 1.25rem;
+
+  /* KPI */
+  --font-size-kpi: 2.25rem;
+  --line-height-kpi: 2.75rem;
+  --letter-spacing-kpi: -0.01em;
+
+  /*
+     SPACING & BORDER RADIUS
+   */
+
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+
+  --radius-control: 0.5rem;
+  --radius-card: 0.75rem;
+
+  --touch-target-min: 3rem;
+
+  /*
+     BACKWARD COMPATIBILITY
+   */
+
+  --bg-primary: var(--color-background-base);
+  --bg-card: var(--color-surface-panel);
+  --text-primary: var(--color-text-primary);
+  --accent: var(--color-accent-primary);
+}
+
+/*
+   GLOBAL STYLES
+ */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 100%;
 }
 
 body {
   margin: 0;
-  font-family: system-ui, -apple-system, sans-serif;
+  min-height: 100vh;
+
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-body);
+  line-height: var(--line-height-body);
+
   background-color: var(--bg-primary);
   color: var(--text-primary);
 }
 
+/*
+   TYPOGRAPHY STYLES
+ */
+
+h1,
+h2,
+h3,
+p {
+  margin-top: 0;
+}
+
+h1 {
+  font-size: var(--font-size-h1);
+  line-height: var(--line-height-h1);
+  font-weight: var(--font-weight-bold);
+}
+
+h2 {
+  font-size: var(--font-size-h2);
+  line-height: var(--line-height-h2);
+  font-weight: var(--font-weight-semibold);
+}
+
+h3 {
+  font-size: var(--font-size-h3);
+  line-height: var(--line-height-h3);
+  font-weight: var(--font-weight-semibold);
+}
+
+p {
+  max-width: 75ch;
+}
+
+.type-display {
+  font-size: var(--font-size-display);
+  line-height: var(--line-height-display);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: var(--letter-spacing-display);
+}
+
+.type-h1 {
+  font-size: var(--font-size-h1);
+  line-height: var(--line-height-h1);
+  font-weight: var(--font-weight-bold);
+}
+
+.type-h2 {
+  font-size: var(--font-size-h2);
+  line-height: var(--line-height-h2);
+  font-weight: var(--font-weight-semibold);
+}
+
+.type-h3 {
+  font-size: var(--font-size-h3);
+  line-height: var(--line-height-h3);
+  font-weight: var(--font-weight-semibold);
+}
+
+.type-body-large {
+  font-size: var(--font-size-body-large);
+  line-height: var(--line-height-body-large);
+  font-weight: var(--font-weight-regular);
+}
+
+.type-body {
+  font-size: var(--font-size-body);
+  line-height: var(--line-height-body);
+  font-weight: var(--font-weight-regular);
+}
+
+.type-body-small {
+  font-size: var(--font-size-body-small);
+  line-height: var(--line-height-body-small);
+  font-weight: var(--font-weight-regular);
+}
+
+.type-label {
+  font-size: var(--font-size-label);
+  line-height: var(--line-height-label);
+  font-weight: var(--font-weight-medium);
+}
+
+.type-button {
+  font-size: var(--font-size-button);
+  line-height: var(--line-height-button);
+  font-weight: var(--font-weight-semibold);
+}
+
+.type-caption {
+  font-size: var(--font-size-caption);
+  line-height: var(--line-height-caption);
+  font-weight: var(--font-weight-regular);
+}
+
+.type-kpi {
+  font-size: var(--font-size-kpi);
+  line-height: var(--line-height-kpi);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: var(--letter-spacing-kpi);
+}
+
+/*
+   ACCESSIBILITY
+ */
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+button {
+  min-height: var(--touch-target-min);
+  cursor: pointer;
+}
+
+:where(
+  button,
+  a,
+  input,
+  select,
+  textarea,
+  [tabindex]
+):focus-visible {
+  outline: 3px solid var(--color-focus-ring);
+  outline-offset: 3px;
+}
+
+/*
+   APPLICATION LAYOUT
+ */
+
 .app-shell {
   max-width: 1100px;
   margin: 0 auto;
-  padding: 1.5rem;
+  padding: var(--space-6);
 }
 
 .app-header {
@@ -32,34 +291,134 @@ body {
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
-  gap: 1rem;
-  border-bottom: 1px solid #2d3748;
-  padding-bottom: 1rem;
+  gap: var(--space-4);
+
+  border-bottom: 1px solid var(--color-border-subtle);
+  padding-bottom: var(--space-4);
 }
+
+/*
+   NAVIGATION
+ */
 
 .tab-nav {
   display: flex;
-  gap: 0.5rem;
+  flex-wrap: wrap;
+  gap: var(--space-2);
 }
 
 .tab-nav button {
   background: var(--bg-card);
   color: var(--text-primary);
-  border: 1px solid #334155;
-  padding: 0.6rem 1rem;
-  border-radius: 0.5rem;
-  cursor: pointer;
+
+  border: 1px solid var(--color-border-interactive);
+  border-radius: var(--radius-control);
+
+  padding: 0.625rem 1rem;
+
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-button);
+}
+
+.tab-nav button:hover:not(.active) {
+  background: var(--color-surface-elevated);
 }
 
 .tab-nav button.active {
   background: var(--accent);
   border-color: var(--accent);
+  color: var(--color-text-on-accent);
 }
 
+/*
+   CARDS
+ */
+
 .card {
-  margin-top: 1.5rem;
-  padding: 1.5rem;
+  margin-top: var(--space-6);
+  padding: var(--space-6);
+
   background: var(--bg-card);
-  border-radius: 0.75rem;
-  border: 1px solid #2d3748;
+
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-card);
+}
+
+.card p {
+  color: var(--color-text-secondary);
+}
+
+.card strong {
+  color: var(--color-text-primary);
+}
+
+/*
+   SEMANTIC STATUS INDICATORS
+ */
+
+.status-indicator {
+  display: inline-block;
+  width: 0.75rem;
+  height: 0.75rem;
+
+  border-radius: 50%;
+  vertical-align: middle;
+}
+
+.status-indicator--normal {
+  background-color: var(--color-status-normal);
+}
+
+.status-indicator--elevated {
+  background-color: var(--color-status-elevated);
+}
+
+.status-indicator--bottleneck {
+  background-color: var(--color-status-bottleneck);
+}
+
+.status-indicator--offline {
+  background-color: var(--color-status-offline);
+}
+
+/* PulseVenue logo */
+
+.app-logo {
+  display: inline-flex;
+  align-items: center;
+  flex: 0 0 190px;
+  width: 190px;
+  text-decoration: none;
+}
+
+.app-logo img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* Responsive design */
+
+@media (max-width: 767px) {
+  .app-shell {
+    padding: var(--space-4);
+  }
+
+  .app-logo {
+    flex-basis: 160px;
+    width: 160px;
+  }
+
+  .tab-nav {
+    width: 100%;
+  }
+
+  .tab-nav button {
+    flex: 1 1 100%;
+    text-align: left;
+  }
+
+  .card {
+    padding: var(--space-4);
+  }
 }
