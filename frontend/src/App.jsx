@@ -16,7 +16,12 @@ export default function App() {
   return (
     <div className="app-shell">
       <header className="app-header">
-        <h1>PulseVenue</h1>
+        <a href="/" className="app-logo" aria-label="PulseVenue — Home">
+          <img
+            src="/pulsevenue-logo-horizontal.svg"
+            alt="PulseVenue"
+          />
+        </a>
         <nav className="tab-nav">
           <button
             className={activeTab === "ATTENDEE" ? "active" : ""}
