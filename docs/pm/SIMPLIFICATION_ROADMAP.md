@@ -11,8 +11,8 @@
 | **1. Rotating Signed QR Payments** | Asymmetric Ed25519 keys in WebCrypto + QR canvas animation + camera WebRTC scanner | **HMAC-SHA256 signed JSON token** (`user_id`, `balance`, `nonce`, `exp`) rendered as text/SVG QR + **"Simulate Scan / Paste Token"** button on Bartender view | Real HTML5 camera QR reader (`html5-qrcode`) + asymmetric ECDSA/Ed25519 keypairs per device |
 | **2. Offline Bartender POS & Batch Sync** | IndexedDB + Service Worker PWA + CRDT conflict resolution | **`localStorage` offline queue** (`pending_txs[]`) + Online/Offline toggle button in UI + single `POST /api/transactions/sync` batch endpoint | Service Worker full offline caching + IndexedDB storage + automatic background sync on `navigator.onLine` |
 | **3. Double-Entry Cloud Ledger** | Distributed event-sourced banking engine with multi-node consensus | **SQLite / PostgreSQL with 3 core tables**: `wallets`, `ledger_entries` (`debit_wallet`, `credit_wallet`, `amount`, `idempotency_key`), `users` | PostgreSQL serializable transactions, audit trail exports, over-draft reconciliation alerts |
-| **4. Uber H3 Crowd Telemetry & Flash Discounts** | Real-time mobile GPS streaming -> Uber H3 hexagonal C-bindings -> spatial clustering | **6 named H3-style Zone IDs** (`H3_STAGE_MAIN`, `H3_BAR_NORTH`, `H3_BAR_SOUTH`, etc.) + simple rule: if `count > capacity * 0.85`, trigger a 20% discount at the nearest under-loaded bar | `h3-py` / `h3-js` hexagonal indexing from real `(lat, lng)` coordinates + Leaflet/Mapbox hex heatmap |
-| **5. 80,000-Agent Simulator** | 80,000 autonomous coroutine agents with continuous pathfinding physics | **Tick-based Python script (`simulator/sim_engine.py`)** simulating either 100 individual agents OR vectorized zone populations (scaling to 80,000 in `<50ms` per tick) hitting the REST API | WebSocket live streaming, custom stage schedule attraction weights, visual particle simulation |
+| **4. Uber H3 Crowd Telemetry & Flash Discounts** | Real-time mobile GPS streaming -> Uber H3 hexagonal C-bindings -> spatial clustering | **Named H3-style Zone IDs** (`Z_STAGE_MAIN`, `Z_BAR_NORTH`, `Z_BAR_SOUTH`) + simple rule: if `count >= capacity * 0.85`, trigger a 20% discount at the nearest under-loaded bar | `com.uber:h3` hexagonal indexing from real `(lat, lng)` coordinates + hex heatmap |
+| **5. 80,000-Agent Simulator** | 80,000 autonomous coroutine agents with continuous pathfinding physics | **Tick-based Java simulator (`simulator/CrowdSimulator.java`)** distributing 80,000 agents across H3 zones in `<50ms` per tick and syncing synthetic POS transaction batches | WebSocket live streaming, custom stage schedule attraction weights, virtual-thread agent runner |
 
 ---
 
@@ -25,9 +25,9 @@ flowchart LR
     S3 --> S4["Sprint 4 (Weeks 9-12)\nHeavy Features (H3 Hex, 80k Stress, Final Docs)"]
 ```
 
-### Sprint 1: Barebone Skeleton & Contracts (Current State — Initialized)
-- **Goal:** Repo initialized, CI/CD green, DB schema defined, API endpoints stubbed and tested, basic 3-tab UI wired up, BA/Architect diagrams drafted.
-- **Deliverable:** Anyone can clone the repo, run `python3 -m unittest discover -s backend/tests`, start the backend, and execute an offline-to-online payment + crowd bottleneck trigger.
+### Sprint 1: Barebone Skeleton & Contracts
+- **Goal:** Repo initialized, CI/CD green, DB schema defined, API endpoints & QR crypto service implemented, basic 3-tab UI styled (`ISS-07`), BA/Architect diagrams completed (`ISS-02`, `ISS-03`).
+- **Deliverable:** Anyone can clone the repo, run `bash scripts/verify_skeleton.sh`, start the Java 21 backend, and verify QR token signing and simulation ticks.
 
 ### Sprint 2: Core Working MVP
 - **Goal:** Connect Frontend <-> Backend <-> SQLite/Postgres Database with real HTTP calls, `localStorage` offline queue, idempotency protection against double-sync, and rule-based flash discount generation.

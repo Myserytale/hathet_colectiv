@@ -21,13 +21,13 @@
 
 | Role | Status | Owned Directories & Skeletal Files | Issue / PR Plan |
 | :--- | :---: | :--- | :--- |
-| **Project Manager & DevOps** | ✅ **Done** | `.github/workflows/ci.yml`, `docker-compose.yml`, `docs/pm/`, `scripts/` | `ISS-01`, `ISS-18`, `ISS-27` |
-| **Software Architect** | ✅ **Done** | `docs/architecture/ARCHITECTURE.md`, `Models.java` (Contracts) | `ISS-03`, `ISS-20` |
-| **Backend Developers (Java 21)** | 📋 Open for PRs | `backend/src/main/java/com/pulsevenue/service/`, `simulator/` | `ISS-05`, `ISS-10`, `ISS-11`, `ISS-12`, `ISS-19`, `ISS-24` |
+| **Project Manager & DevOps** | ✅ **Done** | `.github/workflows/ci.yml`, `docker-compose.yml`, `docs/pm/`, `scripts/` | `ISS-01` (✅), `ISS-18`, `ISS-27` |
+| **Software Architect** | ✅ **Done** | `docs/architecture/ARCHITECTURE.md`, `Models.java` (Contracts) | `ISS-03` (✅), `ISS-20` |
+| **Backend Developers (Java 21)** | 🟢 **In Progress** | `backend/src/main/java/com/pulsevenue/service/`, `simulator/` | `ISS-05` (✅), `ISS-10` (✅), `ISS-11` (✅), `ISS-12` (✅), `ISS-19` (✅), `ISS-24` |
 | **Frontend Developer (React)** | 📋 Open for PRs | `frontend/src/App.jsx`, `frontend/src/components/` | `ISS-06`, `ISS-13`, `ISS-14`, `ISS-22` |
-| **Database Engineer (PostgreSQL)** | 📋 Open for PRs | `database/schema.sql`, `database/seed.sql`, `database/ER_DIAGRAM.md` | `ISS-04`, `ISS-10`, `ISS-21` |
-| **UI Designer** | 📋 Open for PRs | `docs/ui/UI_DESIGN_SPEC.md`, `frontend/src/styles.css` | `ISS-07`, `ISS-16`, `ISS-26` |
-| **Business Analyst (BA)** | 📋 Open for PRs | `docs/ba/REQUIREMENTS_AND_USE_CASES.md` | `ISS-02`, `ISS-15`, `ISS-26` |
+| **Database Engineer (PostgreSQL)** | 📋 Open for PRs | `database/schema.sql`, `database/seed.sql`, `database/ER_DIAGRAM.md` | `ISS-04`, `ISS-10` (✅), `ISS-21` |
+| **UI Designer** | 🟢 **In Progress** | `docs/ui/UI_DESIGN_SPEC.md`, `docs/ui/ISS-07_DESIGN_FOUNDATIONS.md`, `frontend/src/styles.css` | `ISS-07` (✅), `ISS-16`, `ISS-26` |
+| **Business Analyst (BA)** | 🟢 **In Progress** | `docs/ba/REQUIREMENTS_AND_USE_CASES.md` | `ISS-02` (✅), `ISS-15` (✅), `ISS-26` |
 | **QA / Tester** | 📋 Open for PRs | `docs/qa/TEST_PLAN.md`, `backend/src/test/java/com/pulsevenue/PulseVenueTest.java` | `ISS-08`, `ISS-17`, `ISS-25` |
 | **Technical Writer** | 📋 Open for PRs | `docs/technical_writing/USER_AND_API_GUIDE.md`, `README.md` | `ISS-09`, `ISS-23`, `ISS-27` |
 
