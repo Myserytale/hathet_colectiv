@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import AttendeeWallet from "./components/AttendeeWallet";
 
 /**
  * Barebone React Application Skeleton for PulseVenue.
@@ -45,16 +46,7 @@ export default function App() {
       </header>
 
       <main className="app-content">
-        {activeTab === "ATTENDEE" && (
-          <section className="card">
-            <h2>Attendee Mobile Wallet — Skeleton</h2>
-            <p>
-              <strong>TODO (ISS-06):</strong> Fetch signed QR payload from{" "}
-              <code>POST /api/v1/qr/generate</code> and display rotating QR +
-              active geofenced flash discount banner.
-            </p>
-          </section>
-        )}
+        {activeTab === "ATTENDEE" && <AttendeeWallet />}
 
         {activeTab === "POS" && (
           <section className="card">
