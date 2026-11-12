@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import AttendeeWallet from "./components/AttendeeWallet";
 import OrganizerDashboard from "./components/OrganizerDashboard";
+import BartenderPos from "./components/BartenderPos";
 
 /**
  * Barebone React Application Skeleton for PulseVenue.
@@ -48,17 +49,7 @@ export default function App() {
 
       <main className="app-content">
         {activeTab === "ATTENDEE" && <AttendeeWallet />}
-
-        {activeTab === "POS" && (
-          <section className="card">
-            <h2>Bartender Offline Tablet POS — Skeleton</h2>
-            <p>
-              <strong>TODO (ISS-13):</strong> Verify QR signature locally
-              without internet, queue transactions in <code>localStorage</code>,
-              and sync batch to <code>POST /api/v1/transactions/sync</code>.
-            </p>
-          </section>
-        )}
+        {activeTab === "POS" && <BartenderPos />}
 
         {activeTab === "ORGANIZER" && <OrganizerDashboard />}
       </main>

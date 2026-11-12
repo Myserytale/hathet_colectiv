@@ -689,3 +689,364 @@ button {
     padding: var(--space-4);
   }
 }
+
+
+/* ISS-13 — Bartender Tablet POS */
+
+.pos-card {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 1000px;
+  margin: 24px auto;
+  padding: 32px;
+  border-radius: 16px;
+}
+
+/* Header */
+
+.pos-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 18px;
+  margin-bottom: 24px;
+}
+
+.pos-header h2 {
+  margin: 0 0 10px;
+  font-size: 32px;
+  font-weight: 700;
+}
+
+.pos-header p {
+  margin: 0;
+  color: var(--color-text-secondary);
+}
+
+/* Online / Offline toggle */
+
+.pos-mode {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-height: 48px;
+  padding: 12px 20px;
+  border: 1px solid var(--color-border-interactive);
+  border-radius: 30px;
+  background: var(--color-surface-elevated);
+  color: var(--color-text-primary);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.pos-mode input {
+  width: 20px;
+  height: 20px;
+  accent-color: var(--color-accent-primary);
+  cursor: pointer;
+}
+
+/* Main layout */
+
+.pos-layout {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+  align-items: start;
+}
+
+.pos-panel {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 24px;
+  border: 1px solid var(--color-border-subtle);
+  border-radius: 14px;
+  background: var(--color-surface-elevated);
+}
+
+.pos-panel h3 {
+  margin: 0 0 10px;
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.pos-panel label {
+  display: block;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+}
+
+/* Amount and QR inputs */
+
+.pos-panel input,
+.pos-panel textarea {
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  padding: 14px;
+  border: 1px solid var(--color-border-interactive);
+  border-radius: 8px;
+  background: var(--color-surface-panel);
+  color: var(--color-text-primary);
+  font-family: inherit;
+  font-size: 16px;
+}
+
+.pos-panel input {
+  min-height: 52px;
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.pos-panel textarea {
+  min-height: 160px;
+  resize: vertical;
+  line-height: 1.5;
+}
+
+/* Buttons */
+
+.pos-card .pos-primary-button,
+.pos-card .pos-secondary-button {
+  display: block;
+  width: 100%;
+  min-height: 48px;
+  padding: 14px 18px;
+  border-radius: 9px;
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.pos-card .pos-primary-button {
+  border: 1px solid var(--color-accent-primary);
+  background: var(--color-accent-primary);
+  color: var(--color-text-on-accent);
+}
+
+.pos-card .pos-secondary-button {
+  border: 1px solid var(--color-border-interactive);
+  background: transparent;
+  color: var(--color-text-primary);
+}
+
+.pos-card button:hover:not(:disabled) {
+  opacity: 0.88;
+}
+
+.pos-card button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Pending transactions */
+
+.pos-transaction-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.pos-transaction-list li {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 16px;
+  background: var(--color-surface-panel);
+  border-radius: 8px;
+  overflow-wrap: anywhere;
+}
+
+.pos-transaction-list strong {
+  font-size: 20px;
+  color: var(--color-text-primary);
+}
+
+.pos-transaction-list small {
+  font-size: 14px;
+  color: var(--color-text-secondary);
+}
+
+/* Feedback messages */
+
+.pos-warning,
+.pos-feedback {
+  margin: 16px 0;
+  padding: 14px 18px;
+  border-radius: 8px;
+  border-left: 4px solid var(--color-status-elevated);
+  background: var(--color-surface-elevated);
+  color: var(--color-text-primary);
+  line-height: 1.5;
+}
+
+.pos-feedback[data-kind="error"] {
+  border-left-color: var(--color-status-bottleneck);
+}
+
+/* Accessibility */
+
+.pos-card button:focus-visible,
+.pos-card input:focus-visible,
+.pos-card textarea:focus-visible {
+  outline: 3px solid var(--color-focus-ring);
+  outline-offset: 3px;
+}
+
+/* Tablet portrait */
+
+@media (max-width: 900px) {
+  .pos-card {
+    padding: 20px;
+  }
+
+  .pos-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .pos-panel {
+    padding: 20px;
+  }
+}
+
+/* Small mobile screens */
+
+@media (max-width: 480px) {
+  .pos-card {
+    padding: 16px;
+  }
+
+  .pos-header h2 {
+    font-size: 26px;
+  }
+
+  .pos-panel {
+    padding: 16px;
+  }
+}
+
+
+/* ISS-13 — QR Token Preview */
+
+.pos-token-section {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.pos-qr-preview {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+
+  min-height: 250px;
+  padding: 24px;
+
+  background: var(--color-surface-panel);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: 12px;
+  text-align: center;
+}
+
+/* White background for the QR code */
+
+.pos-qr-image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  max-width: 100%;
+  padding: 12px;
+
+  background: #FFFFFF;
+  border-radius: 10px;
+}
+
+.pos-qr-image svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/* Empty QR placeholder */
+
+.pos-qr-icon {
+  font-size: 64px;
+  line-height: 1;
+  color: var(--color-border-interactive);
+}
+
+.pos-token-status {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.pos-qr-preview small {
+  font-size: 14px;
+  color: var(--color-text-secondary);
+  line-height: 1.5;
+}
+
+/* Offline explanation */
+
+.pos-token-hint {
+  margin: 0;
+  font-size: 14px;
+  color: var(--color-text-secondary);
+  line-height: 1.5;
+}
+
+/* Collapsible JSON input for testing */
+
+.pos-manual-input {
+  padding: 14px;
+  background: var(--color-surface-panel);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: 8px;
+}
+
+.pos-manual-input summary {
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  color: var(--color-text-secondary);
+  font-weight: 500;
+}
+
+.pos-manual-input summary:focus-visible {
+  outline: 3px solid var(--color-focus-ring);
+  outline-offset: 3px;
+}
+
+.pos-manual-input label {
+  display: block;
+  margin: 12px 0 8px;
+}
+
+.pos-manual-input textarea {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.pos-scan-icon {
+  width: 64px;
+  height: 64px;
+  color: var(--color-border-interactive);
+}
