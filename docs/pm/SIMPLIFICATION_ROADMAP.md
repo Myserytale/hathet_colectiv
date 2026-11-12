@@ -27,7 +27,7 @@ flowchart LR
 
 ### Sprint 1: Barebone Skeleton & Contracts
 - **Goal:** Repo initialized, CI/CD green, DB schema defined, API endpoints & QR crypto service implemented, basic 3-tab UI styled (`ISS-07`), BA/Architect diagrams completed (`ISS-02`, `ISS-03`).
-- **Deliverable:** Anyone can clone the repo, run `bash scripts/verify_skeleton.sh`, start the Java 21 backend, and verify QR token signing and simulation ticks.
+- **Deliverable:** Anyone can clone the repo, run `bash scripts/verify_skeleton.sh`, or launch the full Docker stack with `bash scripts/demo.sh` and verify QR token signing, offline verification, and 80k-agent simulation ticks.
 
 ### Sprint 2: Core Working MVP
 - **Goal:** Connect Frontend <-> Backend <-> SQLite/Postgres Database with real HTTP calls, `localStorage` offline queue, idempotency protection against double-sync, and rule-based flash discount generation.

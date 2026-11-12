@@ -1,6 +1,6 @@
 # Team Roles, PR Workflow & Implementation Plans (Java 21 + React + PostgreSQL)
 
-**Completed Setup:** Project Manager / DevOps & Software Architect  
+**Completed Foundation & Core Modules:** PM/DevOps (`ISS-01`), Software Architect (`ISS-03`), Business Analyst (`ISS-02`, `ISS-15`), UI Foundations (`ISS-07`), Backend Core & 80k Simulator (`ISS-05`, `ISS-10`, `ISS-11`, `ISS-12`, `ISS-19`)  
 **Team Size:** 7 Members covering 9 Role Areas
 
 ---
@@ -28,8 +28,9 @@
    ```
 3. **Implement only the scoped task** (replace the `TODO (ISS-xx)` stub in the assigned folder).
 4. **Run local checks** before pushing:
-   - Backend (Java 21): `mvn test` (or `./scripts/verify_skeleton.sh`)
+   - Backend (Java 21) & Repo Checks: `bash scripts/verify_skeleton.sh`
    - Frontend (React): `cd frontend && npm run build`
+   - Full Docker Stack Demo: `bash scripts/demo.sh` (`bash scripts/demo.sh smoke` to verify endpoints)
 5. **Open a Pull Request** against `main` using `.github/PULL_REQUEST_TEMPLATE.md` and link `Closes #X`.
 6. **CI/CD Gate:** GitHub Actions (`.github/workflows/ci.yml`) automatically compiles Java 21, runs tests, validates SQL files, and builds the React frontend. At least 1 reviewer (PM/Architect) approves before merge.
 
@@ -39,14 +40,14 @@
 
 ### Role A: Backend Developers (Java 21)
 - **What the Architect already provided:**
-  - `backend/pom.xml` (Java 21 Maven configuration)
+  - `backend/pom.xml` (Java 21 Maven configuration; current MVP server uses zero-dependency `com.sun.net.httpserver.HttpServer`)
   - `backend/src/main/java/com/pulsevenue/model/Models.java` (Frozen Java 21 `record` DTOs matching the REST API contract in `docs/architecture/ARCHITECTURE.md`)
   - `backend/src/main/java/com/pulsevenue/service/PulseVenueService.java`
 - **PR Implementation Plan:**
   - ✅ **PR 1 (`ISS-05` — Done):** Implemented `generateQrToken()` and `verifyQrTokenOffline()` using `javax.crypto.Mac` (`HmacSHA256`) and constant-time signature comparison (`MessageDigest.isEqual`).
-  - ✅ **PR 2 (`ISS-10` & `ISS-11` — Done):** Implemented `syncOfflineBatch()` with idempotency check (`idempotencyKey`) and exposed REST endpoints (`/api/v1/state`, `/api/v1/qr/generate`, `/api/v1/qr/verify-offline`, `/api/v1/transactions/sync`).
-  - ✅ **PR 3 (`ISS-12` — Done):** Implemented `updateZoneTelemetry()` in `PulseVenueService` to detect crowd bottlenecks (`occupancyRatio >= 0.85`) and create a 20% `FlashDiscount` for the nearest `NORMAL` bar.
-  - 🟢 **PR 4 (`ISS-19` ✅ & `ISS-24` 📋):** Implemented the 80,000-agent tick simulator (`CrowdSimulator.java`); remaining stretch task is `com.uber:h3` coordinate indexing (`ISS-24`).
+  - ✅ **PR 2 (`ISS-10` & `ISS-11` — Done):** Implemented `syncOfflineBatch()` with idempotency check (`idempotencyKey`) and exposed REST endpoints (`/api/v1/health`, `/api/v1/state`, `/api/v1/qr/generate`, `/api/v1/qr/verify-offline`, `/api/v1/transactions/sync`, `/api/v1/telemetry/simulate-tick`).
+  - ✅ **PR 3 (`ISS-12` — Done):** Implemented `updateZoneTelemetry()` in `PulseVenueService` to flag congested zones (`occupancyRatio >= 0.85`, currently tagged `CONGESTED` in memory / `BOTTLENECK` in schema) and create a 20% `FlashDiscount` for the nearest `NORMAL` bar.
+  - 🟢 **PR 4 (`ISS-19` ✅ & `ISS-24` 📋):** Implemented the 80,000-agent tick simulator (`CrowdSimulator.java` + `SimulatorTest.java`); remaining stretch task is `com.uber:h3` coordinate indexing (`ISS-24`).
 
 ---
 
@@ -107,8 +108,8 @@
 
 ### Role G: Technical Writer
 - **What the Architect already provided:**
-  - Root `README.md` overview and `docs/technical_writing/USER_AND_API_GUIDE.md` skeleton.
+  - Root `README.md` overview, `scripts/demo.sh` Docker runner, and `docs/technical_writing/USER_AND_API_GUIDE.md` setup/API baseline.
 - **PR Implementation Plan:**
-  - **PR 1 (`ISS-09`):** Document developer environment setup (Java 21, Maven, Node/React, Docker PostgreSQL) and `curl` examples for every `/api/v1/*` endpoint in `docs/technical_writing/USER_AND_API_GUIDE.md`.
-  - **PR 2 (`ISS-23`):** Write step-by-step User Manuals for the 3 personas (Attendee, Bartender POS, Event Organizer).
-  - **PR 3 (`ISS-27`):** Write the final 5-minute live demo script and release notes for the project defense.
+  - **PR 1 (`ISS-09` — Open):** Finalize developer setup notes and `curl` reference examples in `docs/technical_writing/USER_AND_API_GUIDE.md` and `README.md`.
+  - **PR 2 (`ISS-23` — Open):** Write step-by-step User Manuals with UI screenshots for the 3 personas (Attendee, Bartender POS, Event Organizer).
+  - **PR 3 (`ISS-27` — Open):** Write the final 5-minute live demo script and release notes for the project defense.
