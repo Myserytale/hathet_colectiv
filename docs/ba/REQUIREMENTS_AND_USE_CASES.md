@@ -50,10 +50,9 @@ The following non-functional requirements define the initial quality expectation
 
 ## 3. UML Use Case Diagram
 
-The following diagram provides an overview of the main system actors and their interactions with PulseVenue. It is a Mermaid flowchart representation of the proposed use cases.
+The following diagram provides an overview of the main system actors and their interactions with PulseVenue using Mermaid `usecase-beta` syntax.
 
 ```mermaid
-
 usecase-beta
 direction LR
 

@@ -1,13 +1,13 @@
-# UI Design Specification & Wireframes (Skeleton)
+# UI Design Specification & Wireframes
 
 **Assigned Role:** UI Designer  
-**Related Issues:** `ISS-07` (Sprint 1), `ISS-16` (Sprint 2), `ISS-26` (Sprint 4)
+**Related Issues:** `ISS-07` (✅ Done — Sprint 1), `ISS-16` (Sprint 2), `ISS-26` (Sprint 4)
 
 ---
 
-## 1. Color Palette & Typography Tokens (`✅ DONE: ISS-07`)
+## 1. Color Palette, Typography & Brand Assets (`✅ DONE: ISS-07`)
 > **Completed (`ISS-07`):**
-> High-contrast Festival Dark Theme color palette, semantic status tokens (`NORMAL`, `ELEVATED`, `BOTTLENECK`, `OFFLINE`), typography hierarchy, and WCAG contrast verification are documented in **[`docs/ui/ISS-07_DESIGN_FOUNDATIONS.md`](ISS-07_DESIGN_FOUNDATIONS.md)** and implemented in [`frontend/src/styles.css`](../../frontend/src/styles.css).
+> High-contrast Festival Dark Theme color palette (13 Figma tokens), 11 typography styles (`@fontsource/inter`), semantic status tokens (`NORMAL`, `ELEVATED`, `BOTTLENECK`, `OFFLINE`), SVG brand marks (`frontend/public/pulsevenue-logo-*.svg`), and WCAG contrast verification are documented in **[`docs/ui/ISS-07_DESIGN_FOUNDATIONS.md`](ISS-07_DESIGN_FOUNDATIONS.md)** and implemented in [`frontend/src/styles.css`](../../frontend/src/styles.css).
 
 ---
 

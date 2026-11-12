@@ -1,7 +1,7 @@
 # Software Architecture — Technical Structure, Diagrams & API Contracts
 
-**Completed Role:** Software Architect  
-**Tech Stack:** Java 21 (Spring Boot 3.3) · React 18 (Vite) · PostgreSQL 16  
+**Completed Role:** Software Architect (`ISS-03`)  
+**Tech Stack:** Java 21 (JDK `HttpServer` MVP → Spring Boot 3.3 target) · React 18 (Vite) · PostgreSQL 16  
 **Project:** PulseVenue — Offline-First Event Operations & Cashless Commerce Platform
 
 ---
@@ -134,12 +134,15 @@ sequenceDiagram
 
 ## 5. REST API Contracts (Freeze v1 for Frontend & Backend Parallel Work)
 
+> **Current MVP Implementation Note:** [`PulseVenueApplication.java`](../../backend/src/main/java/com/pulsevenue/PulseVenueApplication.java) implements all 6 endpoints below using JDK `HttpServer` and in-memory state in [`PulseVenueService.java`](../../backend/src/main/java/com/pulsevenue/service/PulseVenueService.java). Where the current MVP payload is simplified compared to the target v1 contract, both are noted below.
+
 ### `GET /api/v1/health`
 ```json
-{ "status": "UP", "service": "pulsevenue-backend", "javaVersion": "21" }
+{ "status": "UP", "service": "pulsevenue-backend", "wallets": 2 }
 ```
 
 ### `GET /api/v1/state`
+- **Target Full Contract:**
 ```json
 {
   "wallets": [
@@ -171,22 +174,27 @@ sequenceDiagram
   "totalAttendeesTracked": 80000
 }
 ```
+- **Current MVP Summary Response:** `{ "status": "ACTIVE", "walletsCount": 2, "zonesCount": 3 }`
 
 ### `POST /api/v1/qr/generate`
-- **Request:** `{ "walletId": "w_attendee_01", "ttlSeconds": 60 }`
+- **Request:** `{ "walletId": "w_attendee_01", "ttlSeconds": 300 }`
 - **Response:**
 ```json
 {
   "walletId": "w_attendee_01",
-  "ownerName": "Alex Popescu",
+  "ownerName": "Alex Popescu (Attendee)",
   "balanceSnapshot": 180.00,
   "currency": "RON",
-  "nonce": "9f8e7d6c5b4a",
+  "nonce": "9f8e7d6c",
   "issuedAt": 1762250000,
-  "expiresAt": 1762250060,
+  "expiresAt": 1762250300,
   "signature": "e4d909c290d0fb1ca068ffaddf22cbd0..."
 }
 ```
+
+### `POST /api/v1/qr/verify-offline`
+- **Request:** `{ "walletId": "w_attendee_01", "ownerName": "Alex Popescu (Attendee)", "balanceSnapshot": 180.00, "currency": "RON", "nonce": "9f8e7d6c", "issuedAt": 1762250000, "expiresAt": 1762250300, "signature": "...", "orderAmount": 25.00, "localAlreadySpent": 0.00 }`
+- **Response:** `{ "valid": true, "reason": "Offline verification successful", "remainingOfflineBalance": 155.00 }`
 
 ### `POST /api/v1/transactions/sync`
 - **Request:**
@@ -199,7 +207,6 @@ sequenceDiagram
       "debitWalletId": "w_attendee_01",
       "creditWalletId": "w_bar_north",
       "amount": 25.00,
-      "qrToken": { "...signed QrToken..." },
       "createdOfflineAt": 1762250015
     }
   ]
@@ -215,11 +222,15 @@ sequenceDiagram
 }
 ```
 
+### `POST /api/v1/telemetry/simulate-tick`
+- **Current MVP Request:** Map of H3 index (`8a2a...`) to updated headcount, e.g. `{ "8a2a1072b51ffff": 14000 }`
+- **Response:** `{ "status": "processed", "activeDiscountsCount": 1, "discounts": [...] }`
+
 ---
 
 ## 6. Architecture Decision Records (ADRs)
 
-- **ADR-001 (Canonical QR Signature String):** To guarantee identical HMAC-SHA256 hashes between Java 21 (`javax.crypto.Mac`) and browser JavaScript (`SubtleCrypto` / POS verifier), the signed message is strictly formatted as:
-  `walletId|balanceSnapshot(2 decimals)|currency|nonce|issuedAt|expiresAt`.
+- **ADR-001 (Canonical QR Signature String):** To guarantee identical HMAC-SHA256 hashes between Java 21 (`javax.crypto.Mac`) and browser JavaScript (`SubtleCrypto` / POS verifier), the signed message format is:
+  `walletId|balanceSnapshot(2 decimals)|currency|nonce|issuedAt|expiresAt`. *(Note: current `PulseVenueService.java` formats decimals with `Locale.GERMANY` (`180,00`); align to `Locale.US` / dot separator before enabling client-side `SubtleCrypto` verification.)*
 - **ADR-002 (Idempotent Double-Entry Settlement):** All offline POS tablets generate a UUID/unique `idempotencyKey` per transaction at scan time. The database enforces `UNIQUE(idempotency_key)` on `ledger_entries` so network retries never double-charge an attendee.
 - **ADR-003 (Phased Spatial & Simulation Complexity):** Sprint 1–2 uses named H3 hex zones (`Z_STAGE_MAIN`, etc.) and vectorized headcounts so the 7-person team can complete the core loop quickly; Sprint 3–4 swaps in `com.uber:h3` coordinate indexing and Java 21 virtual threads for the 80,000-agent simulator.

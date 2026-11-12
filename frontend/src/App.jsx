@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import AttendeeWallet from "./components/AttendeeWallet";
+import OrganizerDashboard from "./components/OrganizerDashboard";
 import BartenderPos from "./components/BartenderPos";
 
 /**
@@ -50,16 +51,7 @@ export default function App() {
         {activeTab === "ATTENDEE" && <AttendeeWallet />}
         {activeTab === "POS" && <BartenderPos />}
 
-        {activeTab === "ORGANIZER" && (
-          <section className="card">
-            <h2>Organizer Uber H3 Crowd &amp; 80k Simulator — Skeleton</h2>
-            <p>
-              <strong>TODO (ISS-14 &amp; ISS-22):</strong> Render H3 zone
-              occupancy cards from <code>GET /api/v1/state</code> and trigger
-              simulator ticks via <code>POST /api/v1/telemetry/simulate-tick</code>.
-            </p>
-          </section>
-        )}
+        {activeTab === "ORGANIZER" && <OrganizerDashboard />}
       </main>
     </div>
   );
