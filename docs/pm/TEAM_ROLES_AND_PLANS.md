@@ -1,6 +1,6 @@
 # Team Roles, PR Workflow & Implementation Plans (Java 21 + React + PostgreSQL)
 
-**Completed Foundation & Core Modules:** PM/DevOps (`ISS-01`), Software Architect (`ISS-03`), Business Analyst (`ISS-02`, `ISS-15`), UI Foundations (`ISS-07`), Backend Core & 80k Simulator (`ISS-05`, `ISS-10`, `ISS-11`, `ISS-12`, `ISS-19`)  
+**Completed Foundation & Core Modules:** PM/DevOps (`ISS-01`), Software Architect (`ISS-03`), Business Analyst (`ISS-02`, `ISS-15`), UI Foundations (`ISS-07`), Backend Core & 80k Simulator (`ISS-05`, `ISS-10`, `ISS-11`, `ISS-12`, `ISS-19`), Frontend MVP (`ISS-06`, `ISS-13`, `ISS-14`), QA Suite & 80k Benchmark (`ISS-08`, `ISS-17`, `ISS-25`)  
 **Team Size:** 7 Members covering 9 Role Areas
 
 ---
@@ -13,9 +13,9 @@
 | **Member 2** | **Backend Developer 1** | *(Crypto QR & Ledger Sync)* | ✅ **Done (`ISS-05`, `ISS-10`, `ISS-11`)** | `backend/src/main/java/com/pulsevenue/service/`, `PulseVenueApplication.java` |
 | **Member 3** | **Backend Developer 2** | *(H3 Telemetry & 80k Simulator)* | 🟢 **In Progress (`ISS-12`, `ISS-19` ✅)** | `backend/src/main/java/com/pulsevenue/simulator/`, `service/` |
 | **Member 4** | **Database Engineer** | *(PostgreSQL Schema & Views)* | 📋 Ready for PRs | `database/` |
-| **Member 5** | **Frontend Developer** | *(React Views, State & Offline POS)* | 📋 Ready for PRs | `frontend/src/components/`, `frontend/src/api/`, `frontend/src/App.jsx` |
+| **Member 5** | **Frontend Developer** | *(React Views, State & Offline POS)* | 🟢 **In Progress (`ISS-06`, `ISS-13`, `ISS-14` ✅)** | `frontend/src/components/`, `frontend/src/App.jsx` |
 | **Member 6** | **UI Designer** | **Business Analyst (BA)** | 🟢 **In Progress (`ISS-02`, `ISS-07`, `ISS-15` ✅)** | `docs/ui/`, `docs/ba/`, `frontend/src/styles.css` |
-| **Member 7** | **QA / Tester** | **Technical Writer** | 📋 Ready for PRs | `backend/src/test/`, `frontend/src/__tests__/`, `docs/qa/`, `docs/technical_writing/` |
+| **Member 7** | **QA / Tester** | **Technical Writer** | 🟢 **In Progress (QA `ISS-08`, `ISS-17`, `ISS-25` ✅)** | `backend/src/test/`, `docs/qa/`, `docs/technical_writing/` |
 
 ---
 
@@ -26,7 +26,7 @@
    ```bash
    git checkout -b feat/ISS-05-qr-crypto-service
    ```
-3. **Implement only the scoped task** (replace the `TODO (ISS-xx)` stub in the assigned folder).
+3. **Implement only the scoped task** in your assigned directory.
 4. **Run local checks** before pushing:
    - Backend (Java 21) & Repo Checks: `bash scripts/verify_skeleton.sh`
    - Frontend (React): `cd frontend && npm run build`
@@ -67,9 +67,9 @@
 - **What the Architect already provided:**
   - `frontend/package.json`, `frontend/vite.config.js` (proxying `/api` to `http://localhost:8080`), `frontend/index.html`, `frontend/src/main.jsx`, and skeletal `frontend/src/App.jsx` with the 3 tab shells.
 - **PR Implementation Plan:**
-  - **PR 1 (`ISS-06` — Open):** Build the `AttendeeWallet` component displaying wallet balance, rotating QR token payload, countdown timer, and active flash discount banner.
-  - **PR 2 (`ISS-13` — Open):** Build the `BartenderPos` component with an **Online / Offline toggle**, local QR verification, `localStorage` queue (`pulsevenue_pending_txs`), and "Sync Batch to Cloud Ledger" button.
-  - **PR 3 (`ISS-14` & `ISS-22` — Open):** Build the `OrganizerDashboard` component displaying H3 zone occupancy cards, bottleneck badges, and the "Run 80,000-Agent Simulation Tick" trigger button + QR matrix SVG renderer.
+  - ✅ **PR 1 (`ISS-06` — Done):** Built the `AttendeeWallet` component displaying wallet balance, rotating QR token payload, countdown timer, and active flash discount banner.
+  - ✅ **PR 2 (`ISS-13` — Done):** Built the `BartenderPos` component with an **Online / Offline toggle**, local QR verification, `localStorage` queue (`pulsevenue_pending_txs`), and "Sync Batch to Cloud Ledger" button.
+  - 🟢 **PR 3 (`ISS-14` ✅ & `ISS-22` 📋):** Built the `OrganizerDashboard` component displaying H3 zone occupancy cards, bottleneck badges, and the "Run 80,000-Agent Simulation Tick" trigger button; remaining task is visual QR matrix SVG polish (`ISS-22`).
 
 ---
 
@@ -100,9 +100,9 @@
   - `.github/workflows/ci.yml` automated pipeline
   - `docs/qa/TEST_PLAN.md` template and skeletal test class `backend/src/test/java/com/pulsevenue/PulseVenueTest.java`
 - **PR Implementation Plan:**
-  - **PR 1 (`ISS-08`):** Define formal test cases (`TC-01`..`TC-10`) in `docs/qa/TEST_PLAN.md` and write unit tests for valid QR generation and offline verification.
-  - **PR 2 (`ISS-17`):** Implement negative/security unit & integration tests in `PulseVenueTest.java`: tampered QR balance (signature mismatch), expired QR token, insufficient offline balance, and duplicate `idempotencyKey` batch replay.
-  - **PR 3 (`ISS-25`):** Execute the 80,000-agent stress test benchmark, assert `<2000ms` tick execution time, and document the QA test report.
+  - ✅ **PR 1 (`ISS-08` — Done):** Defined formal test cases (`TC-01`..`TC-10`) in `docs/qa/TEST_PLAN.md` and implemented unit tests for valid QR generation and offline verification (`QrCryptoUnitTests.java`).
+  - ✅ **PR 2 (`ISS-17` — Done):** Implemented negative/security unit & integration tests in `SecurityAndSyncTests.java`: tampered QR balance (signature mismatch), expired QR token, insufficient offline balance, and duplicate `idempotencyKey` batch replay.
+  - ✅ **PR 3 (`ISS-25` — Done):** Executed the 80,000-agent stress test benchmark (`SimulatorBenchmarkTests.java`), verified `<2000ms` tick execution time with 0 RON drift, and documented the QA test report in `docs/qa/TEST_PLAN.md`.
 
 ---
 
